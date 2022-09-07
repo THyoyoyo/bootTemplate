@@ -17,7 +17,7 @@ public class WebConfig  implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 //所有请求都被拦截包括静态资源
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/userLogin","/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
 
                 //放行的请求
 //                .excludePathPatterns("/", "/login", "/css/**", "/fonts/**", "/images/**",

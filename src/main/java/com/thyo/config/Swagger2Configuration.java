@@ -11,6 +11,10 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @Api(value = "/api", description = "swagger示例接口", tags = "example")
 @RestController
 @RequestMapping(value = "/api", produces = {"application/json"})
@@ -18,6 +22,7 @@ public class Swagger2Configuration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .ignoredParameterTypes(HttpSession.class, HttpServletRequest.class, HttpServletResponse.class)
                 .select()//build模式,返回一个建造者
                 .apis(RequestHandlerSelectors.any())//api的配置路径
                 .paths(PathSelectors.regex("(?!/error.*).*"))//扫描路径选择
