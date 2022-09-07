@@ -1,6 +1,7 @@
 package com.thyo.controller;
 
 
+import com.thyo.annotation.Token;
 import com.thyo.dto.UserDto;
 import com.thyo.service.TestService;
 import io.swagger.annotations.Api;
@@ -20,6 +21,7 @@ public class TestController {
 
 
     @ApiOperation(value = "根据ID查询用户")
+    @Token
     @GetMapping("/info")
     public HashMap<Object, Object> getUserId(@RequestParam("id") Integer id){
         HashMap<Object, Object> map = new HashMap<>();

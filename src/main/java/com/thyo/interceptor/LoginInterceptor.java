@@ -1,7 +1,9 @@
 package com.thyo.interceptor;
 
+import com.thyo.annotation.Token;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,6 +18,21 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        Token annotation;
+
+        if(handler instanceof HandlerMethod) {
+            annotation = ((HandlerMethod) handler).getMethodAnnotation(Token.class);
+        }else{
+            return true;
+        }
+
+        //没有声明需要权限,或者声明不验证权限
+        if(annotation == null || annotation.validate() == false){
+            return true;
+        }
+
+
         //登录检查逻辑
         HttpSession session = request.getSession();
         Object loginToken = session.getAttribute("loginToken");
@@ -35,7 +52,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         writer.print(jsonObject);
         writer.close();
         response.flushBuffer();
-
         return false;
     }
 
